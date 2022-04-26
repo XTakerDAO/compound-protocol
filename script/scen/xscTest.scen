@@ -1,0 +1,38 @@
+– Deploys basic ComptrollerG1
+
+– deploy a price oracle
+PriceOracle Deploy Simple
+
+– deploy a interest mode
+InterestRateModel Deploy WhitePaper MyWhitePaper 0.005 0.2
+
+– deploy a unitroller
+Unitroller Deploy
+
+– deploy a comptrollerG2
+Comptroller Deploy StandardG2 StdComptrollerG2
+
+– set unitroller implement and init unitroller
+Unitroller SetPendingImpl StdComptrollerG2
+ComptrollerImpl StdComptrollerG2 BecomeG2
+Comptroller SetPriceOracle (PriceOracle Address)
+Comptroller SetMaxAssets 20
+Comptroller SetCloseFactor 0.5
+Comptroller LiquidationIncentive 1.1
+
+– deploy cXT and init cXT
+CToken Deploy CEther cXT “Copound XT” (Comptroller Address) (InterestRateModel MyWhitePaper Address) 1.0 8 first
+CToken cXT SetReserveFactor 0.1
+
+– deploy cDai and init cDai
+Erc20 Deploy Standard DAI “Dai Test”
+CTokenDelegate Deploy CErc20Delegate cDAIDelegate
+CToken Deploy CErc20Delegator cDai “Compound DAI” (Erc20 DAI Address) (Comptroller Address) (InterestRateModel MyWhitePaper Address ) 1.0 8 default (CTokenDelegate cDAIDelegate Address) “0x00”
+CToken cDAI BecomeImplementation “0x00”
+CToken cDAI SetReserveFactor 0.1
+
+– other setting
+PriceOracle SetPrice cXT 2.23
+PriceOracle SetPrice cDAI 1.0
+Erc20 cDAI Faucet root 50000e18
+Erc20 DAI Approve cDAI 40000e18
