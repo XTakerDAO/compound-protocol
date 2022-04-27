@@ -52,7 +52,10 @@ module.exports = {
             ]
         },
         xsc_test: {
-            providers: [{ http: "https://testnet2.xtvip.top" }],
+            providers: [
+                {file: "~/.xsc/xsc-url"},
+                {http: "https://testnet2.xtvip.top" }
+            ],
             web3: {                                               // Web3 options for immediate confirmation in development mode
                 gas: [
                     { env: "GAS" },
@@ -69,7 +72,7 @@ module.exports = {
             },
             accounts: [                                           // How to load default account for transactions
                 { env: "ACCOUNT" },
-                { file: "~/.ethereum/xt" },                               // Load from `ACCOUNT` env variable (e.g. env ACCOUNT=0x...)
+                { file: "~/.xsc/xsc-account" },                               // Load from `ACCOUNT` env variable (e.g. env ACCOUNT=0x...)
                 { unlocked: 0 }                                       // Else, try to grab first "unlocked" account from provider
             ]
         },
